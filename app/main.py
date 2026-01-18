@@ -4,25 +4,31 @@ from contextlib import asynccontextmanager
 
 from app.config import settings
 from app.database import close_db
+#Auth imports
 from app.auth.api.router import router as auth_router
-from app.users.api.router import router as users_router
 from app.auth.dependency_injection.providers import build_user_repo
+#Users imports
+from app.users.api.router import router as users_router
+from app.users.dependency_injection.providers import build_user_profile_repo
 
 #Imports to clear cache for testing purposes with TestClient
 from app.auth.dependency_injection.providers import clear_caches as clear_auth_caches
-
+from app.users.dependency_injection.providers import clear_users_caches
 
 CACHE_CLEAR_FUNCTIONS = [
     clear_auth_caches,
+    clear_users_caches,
 ]
 
 #Startup event to ensure indexes uniqueness in the database
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     #lifespan manager on startup 
-    repo = build_user_repo()
+    repo_user = build_user_repo()
+    repo_profile = build_user_profile_repo()
     #startup ensure indexes uniqueness of email values
-    await repo.ensure_indexes()
+    await repo_user.ensure_indexes()
+    await repo_profile.ensure_indexes()
     #yield this point to startup completion
     yield
     #lifespan manager on shutdown
