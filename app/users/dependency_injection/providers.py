@@ -8,7 +8,7 @@ from app.users.persistence.repository import MongoUserProfileRepository
 
 
 @lru_cache
-def build_user_profile_repository() -> MongoUserProfileRepository:
+def build_user_profile_repo() -> MongoUserProfileRepository:
     db: AsyncIOMotorDatabase = get_db()
     repo = MongoUserProfileRepository(db)
     return repo
@@ -16,7 +16,7 @@ def build_user_profile_repository() -> MongoUserProfileRepository:
 
 @lru_cache
 def build_users_service() -> UsersService:
-    repo = build_user_profile_repository()
+    repo = build_user_profile_repo()
     return UsersService(repo)
 
 
@@ -25,4 +25,4 @@ def clear_users_caches() -> None:
     Clears cached DI singletons for users module, only for testing purposes
     """
     build_users_service.cache_clear()
-    build_user_profile_repository.cache_clear()
+    build_user_profile_repo.cache_clear()

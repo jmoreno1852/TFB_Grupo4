@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from app.config import settings
 from app.database import close_db
 from app.auth.api.router import router as auth_router
+from app.users.api.router import router as users_router
 from app.auth.dependency_injection.providers import build_user_repo
 
 #Imports to clear cache for testing purposes with TestClient
@@ -39,7 +40,7 @@ def create_app() -> FastAPI:
 
     #Routers
     app.include_router(auth_router)
-
+    app.include_router(users_router)
     #Health check endpoint for testing purposes
     @app.get("/health")
     async def health():
