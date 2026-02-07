@@ -12,7 +12,6 @@ def doc_to_guild(doc: Dict[str, Any]) -> Guild:
         id=str(doc["_id"]),
         name=doc["name"],
         description=doc.get("description"),
-        type=doc.get("type"),
     )
 
 

@@ -10,7 +10,7 @@ class Guild:
     id: str
     name: str
     description: Optional[str] = None
-    type: Optional[str] = None
+
 
 @dataclass(frozen=True)
 class GuildMembership:
