@@ -10,6 +10,10 @@ from app.auth.dependency_injection.providers import build_user_repo
 #Users imports
 from app.users.api.router import router as users_router
 from app.users.dependency_injection.providers import build_user_profile_repo
+# Guilds imports
+from guilds.api.router import router as guilds_router
+from guilds.dependency_injection.providers import build_guild_repository, build_membership_repository
+from guilds.dependency_injection.providers import clear_caches as clear_guilds_caches
 
 #Imports to clear cache for testing purposes with TestClient
 from app.auth.dependency_injection.providers import clear_caches as clear_auth_caches
@@ -18,17 +22,26 @@ from app.users.dependency_injection.providers import clear_users_caches
 CACHE_CLEAR_FUNCTIONS = [
     clear_auth_caches,
     clear_users_caches,
+    clear_guilds_caches,
 ]
 
 #Startup event to ensure indexes uniqueness in the database
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     #lifespan manager on startup 
+    #Auth Repository
     repo_user = build_user_repo()
+    #Users Profile Repository
     repo_profile = build_user_profile_repo()
+    #Guilds Repository
+    repo_guild = build_guild_repository()
+    repo_membership = build_membership_repository()
     #startup ensure indexes uniqueness of email values
     await repo_user.ensure_indexes()
     await repo_profile.ensure_indexes()
+    # startup ensure indexes for guilds/memberships
+    await repo_guild.ensure_indexes()
+    await repo_membership.ensure_indexes()
     #yield this point to startup completion
     yield
     #lifespan manager on shutdown
@@ -47,6 +60,8 @@ def create_app() -> FastAPI:
     #Routers
     app.include_router(auth_router)
     app.include_router(users_router)
+    app.include_router(guilds_router)
+
     #Health check endpoint for testing purposes
     @app.get("/health")
     async def health():
