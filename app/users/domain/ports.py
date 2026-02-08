@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from TFB_Grupo4.app.users.domain.entities import UserProfile
+from app.users.domain.entities import UserProfile
 
 class UserProfileRepository(ABC):
     @abstractmethod
