@@ -4,7 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from app.database import get_db
 from app.users.domain.services import UsersService
-from app.users.persistence.repository import MongoUserProfileRepository
+from app.users.persistence.mongo.repository import MongoUserProfileRepository
 
 
 @lru_cache

@@ -5,7 +5,7 @@ from pymongo.errors import DuplicateKeyError
 
 from app.users.domain.entities import UserProfile
 from app.users.domain.ports import UserProfileRepository
-from app.users.persistence.mapper import doc_to_profile, profile_to_doc, profile_to_update_doc
+from app.users.persistence.mongo.mapper import doc_to_profile, profile_to_doc, profile_to_update_doc
 
 class MongoUserProfileRepository(UserProfileRepository):
     def __init__(self, db: AsyncIOMotorDatabase):
