@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict
 
 from app.users.domain.entities import UserProfile, UserSettings
@@ -19,8 +19,8 @@ def doc_to_profile(doc: Dict[str, Any]) -> UserProfile:
             timezone=doc.get("settings", {}).get("timezone", "Europe/Madrid"),
             theme=doc.get("settings", {}).get("theme", "dark"),
         ),
-        created_at=doc.get("created_at", datetime.now(datetime.timezone.utc)),
-        updated_at=doc.get("updated_at", datetime.now(datetime.timezone.utc)),
+        created_at=doc.get("created_at", datetime.now(timezone.utc)),
+        updated_at=doc.get("updated_at", datetime.now(timezone.utc)),
     )
 
 
