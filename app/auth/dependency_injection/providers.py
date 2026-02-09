@@ -2,7 +2,7 @@
 from functools import lru_cache
 
 from app.database import get_db
-from app.auth.persistence.repository import MongoUserRepository
+from app.auth.persistence.mongo.repository import MongoUserRepository
 from app.auth.domain.services import AuthService
 
 

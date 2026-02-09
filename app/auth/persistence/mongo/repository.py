@@ -8,7 +8,7 @@ from pymongo.errors import DuplicateKeyError
 from app.auth.domain.entities import User
 from app.auth.domain.ports import UserRepository
 from app.auth.domain.errors import UserAlreadyExistsError
-from app.auth.persistence.mapper import user_to_db, db_to_user
+from app.auth.persistence.mongo.mapper import user_to_db, db_to_user
 
 
 #Define the functionality of the Repositories for this Domain
