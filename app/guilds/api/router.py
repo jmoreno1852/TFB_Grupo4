@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.auth.api.deps import get_current_user
 from app.auth.domain.entities import User
 
-from guilds.api.schemas import (
+from app.guilds.api.schemas import (
     GuildResponse,
     ListGuildsResponse,
     JoinGuildRequest,
@@ -11,7 +11,7 @@ from guilds.api.schemas import (
     CreateGuildResponse,
     DeleteGuildResponse,
 )
-from guilds.domain.errors import (
+from app.guilds.domain.errors import (
     GuildNotFoundError,
     AlreadyInGuildError,
     NotInGuildError,
@@ -19,7 +19,7 @@ from guilds.domain.errors import (
     InvalidGuildNameError,
     GuildHasMembersError,
 )
-from guilds.dependency_injection.providers import build_guilds_service
+from app.guilds.dependency_injection.providers import build_guilds_service
 
 
 router = APIRouter(prefix="/guilds", tags=["guilds"])

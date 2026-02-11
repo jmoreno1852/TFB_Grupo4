@@ -1,7 +1,7 @@
 # Guilds domain imports
-from guilds.domain.entities import GuildMembership, Guild
-from guilds.domain.ports import GuildRepository, MembershipRepository
-from guilds.domain.errors import (
+from app.guilds.domain.entities import GuildMembership, Guild
+from app.guilds.domain.ports import GuildRepository, MembershipRepository
+from app.guilds.domain.errors import (
     GuildNotFoundError,
     AlreadyInGuildError,
     NotInGuildError,

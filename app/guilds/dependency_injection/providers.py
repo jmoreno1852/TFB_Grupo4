@@ -2,11 +2,11 @@ from functools import lru_cache
 
 from app.database import get_db
 
-from guilds.persistence.mongo.repository import (
+from app.guilds.persistence.mongo.repository import (
     MongoGuildRepository,
     MongoMembershipRepository,
 )
-from guilds.domain.services import GuildsService
+from app.guilds.domain.services import GuildsService
 
 
 @lru_cache(maxsize=1)

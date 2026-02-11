@@ -11,9 +11,9 @@ from app.auth.dependency_injection.providers import build_user_repo
 from app.users.api.router import router as users_router
 from app.users.dependency_injection.providers import build_user_profile_repo
 # Guilds imports
-from guilds.api.router import router as guilds_router
-from guilds.dependency_injection.providers import build_guild_repository, build_membership_repository
-from guilds.dependency_injection.providers import clear_caches as clear_guilds_caches
+from app.guilds.api.router import router as guilds_router
+from app.guilds.dependency_injection.providers import build_guild_repository, build_membership_repository
+from app.guilds.dependency_injection.providers import clear_caches as clear_guilds_caches
 
 #Imports to clear cache for testing purposes with TestClient
 from app.auth.dependency_injection.providers import clear_caches as clear_auth_caches

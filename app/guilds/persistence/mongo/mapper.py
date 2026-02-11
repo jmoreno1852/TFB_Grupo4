@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Any, Dict
 
-from guilds.domain.entities import Guild, GuildMembership
+from app.guilds.domain.entities import Guild, GuildMembership
 
 
 def doc_to_guild(doc: Dict[str, Any]) -> Guild:

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Iterable, Optional
 
-from guilds.domain.entities import Guild, GuildMembership
+from app.guilds.domain.entities import Guild, GuildMembership
 
 
 class GuildRepository(ABC):

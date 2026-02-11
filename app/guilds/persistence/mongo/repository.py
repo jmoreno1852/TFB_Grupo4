@@ -4,10 +4,10 @@ from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from pymongo.errors import DuplicateKeyError
 
-from guilds.domain.entities import Guild, GuildMembership
-from guilds.domain.ports import GuildRepository, MembershipRepository
-from guilds.domain.errors import GuildAlreadyExistsError
-from guilds.persistence.mongo.mapper import doc_to_guild, guild_to_doc, doc_to_membership, membership_to_doc
+from app.guilds.domain.entities import Guild, GuildMembership
+from app.guilds.domain.ports import GuildRepository, MembershipRepository
+from app.guilds.domain.errors import GuildAlreadyExistsError
+from app.guilds.persistence.mongo.mapper import doc_to_guild, guild_to_doc, doc_to_membership, membership_to_doc
 
 
 # GuildRepository implementation for MongoDB
