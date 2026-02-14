@@ -1,5 +1,5 @@
-from progression.domain.entities import Progression, Stats
-from progression.domain.ports import ProgressionRepository
+from app.progression.domain.entities import Progression, Stats
+from app.progression.domain.ports import ProgressionRepository
 
 
 class ProgressionService:

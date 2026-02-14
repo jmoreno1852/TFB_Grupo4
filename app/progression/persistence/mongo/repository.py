@@ -2,10 +2,10 @@ from datetime import datetime, timezone
 
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from progression.domain.entities import Progression
-from progression.domain.ports import ProgressionRepository
-from progression.domain.errors import InsufficientGoldError
-from progression.persistence.mongo.mapper import doc_to_progression, progression_to_doc
+from app.progression.domain.entities import Progression
+from app.progression.domain.ports import ProgressionRepository
+from app.progression.domain.errors import InsufficientGoldError
+from app.progression.persistence.mongo.mapper import doc_to_progression, progression_to_doc
 
 
 class MongoProgressionRepository(ProgressionRepository):

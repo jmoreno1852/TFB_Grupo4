@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Any, Dict
 
-from progression.domain.entities import Progression, Stats
+from app.progression.domain.entities import Progression, Stats
 
 
 def doc_to_progression(doc: Dict[str, Any]) -> Progression:

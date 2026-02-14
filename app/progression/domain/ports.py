@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from progression.domain.entities import Progression
+from app.progression.domain.entities import Progression
 
 
 class ProgressionRepository(ABC):
