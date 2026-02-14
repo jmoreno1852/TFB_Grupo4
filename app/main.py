@@ -25,7 +25,7 @@ from app.auth.dependency_injection.providers import clear_caches as clear_auth_c
 from app.users.dependency_injection.providers import clear_users_caches
 from app.guilds.dependency_injection.providers import clear_caches as clear_guilds_caches
 from app.quests.dependency_injection.providers import clear_caches as clear_quests_caches
-from progression.dependency_injection.providers import clear_caches as clear_progression_caches
+from app.progression.dependency_injection.providers import clear_caches as clear_progression_caches
 
 
 CACHE_CLEAR_FUNCTIONS = [
