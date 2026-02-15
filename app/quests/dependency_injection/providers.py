@@ -5,6 +5,9 @@ from app.database import get_db
 from app.quests.domain.services import QuestsService
 from app.quests.persistence.mongo.repository import QuestCatalogMongoRepository, UserQuestMongoRepository
 
+#Import RewardApplier from progression module
+from app.progression.dependency_injection.providers import build_reward_applier as build_progression_reward_applier
+
 
 
 @lru_cache(maxsize=1)
@@ -23,11 +26,11 @@ def build_user_quest_repository() -> UserQuestMongoRepository:
     return UserQuestMongoRepository(get_db())
 
 
-def build_reward_applier(): #Need to wait to implement it in progression module
+def build_reward_applier(): 
     """
     Build and return RewardApplier implementation.
     """
-    raise NotImplementedError("RewardApplier provider not wired yet.")
+    return build_progression_reward_applier()
 
 
 @lru_cache(maxsize=1)
