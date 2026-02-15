@@ -2,10 +2,10 @@ from functools import lru_cache
 
 from app.database import get_db
 
-from progression.persistence.mongo.repository import MongoProgressionRepository
-from progression.domain.services import ProgressionService
+from app.progression.persistence.mongo.repository import MongoProgressionRepository
+from app.progression.domain.services import ProgressionService
 
-from quests.domain.ports import RewardApplier
+from app.quests.domain.ports import RewardApplier
 
 
 @lru_cache(maxsize=1)
