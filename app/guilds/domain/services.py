@@ -9,6 +9,8 @@ from app.guilds.domain.errors import (
     InvalidGuildNameError,
     GuildHasMembersError,
 )
+#Import for QuestBootstrapper protocol
+from app.quests.domain.ports import QuestBootstrapper
 
 
 class GuildsService:
@@ -16,9 +18,11 @@ class GuildsService:
         self,
         guild_repository: GuildRepository,
         membership_repository: MembershipRepository,
+        quest_bootstrapper: QuestBootstrapper,
     ):
         self.guild_repository = guild_repository
         self.membership_repository = membership_repository
+        self.quest_bootstrapper = quest_bootstrapper
 
     async def list_guilds(self):
         """List all available guilds (catalog)"""
@@ -73,6 +77,8 @@ class GuildsService:
             guild_id=guild_id_norm,
         )
         await self.membership_repository.join(membership)
+        #Bootsrap quests for the guild when user joins 
+        await self.quest_bootstrapper.bootstrap_guild_quests(user_id_norm, guild_id_norm)
 
     async def leave_guild(self, user_id: str, guild_id: str) -> None:
         user_id_norm = user_id.strip()

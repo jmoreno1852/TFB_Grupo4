@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Any, Iterable, Optional
+from typing import Any, Iterable, Optional, Protocol
 
 from app.quests.domain.entities import Quest, UserQuest
 
@@ -90,3 +90,8 @@ class RewardApplier(ABC):
         """Add gold reward to user"""
         raise NotImplementedError
 
+
+class QuestBootstrapper(Protocol):
+    async def bootstrap_guild_quests(self, user_id: str, guild_id: str) -> None: 
+        """Bootstrap quests for a guild, called when user joins guild for the first time"""
+        raise NotImplementedError

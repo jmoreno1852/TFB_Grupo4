@@ -7,6 +7,8 @@ from app.guilds.persistence.mongo.repository import (
     MongoMembershipRepository,
 )
 from app.guilds.domain.services import GuildsService
+#Import for QuestBootstrapper protocol
+from app.quests.dependency_injection.providers import build_quest_bootstrapper
 
 
 @lru_cache(maxsize=1)
@@ -33,6 +35,7 @@ def build_guilds_service() -> GuildsService:
     return GuildsService(
         guild_repository=build_guild_repository(),
         membership_repository=build_membership_repository(),
+        quest_bootstrapper=build_quest_bootstrapper(),
     )
 
 

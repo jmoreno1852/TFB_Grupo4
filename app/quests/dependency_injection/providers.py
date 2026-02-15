@@ -8,6 +8,8 @@ from app.quests.persistence.mongo.repository import QuestCatalogMongoRepository,
 #Import RewardApplier from progression module
 from app.progression.dependency_injection.providers import build_reward_applier as build_progression_reward_applier
 
+#Import QuestBootstrapper from domain ports
+from app.quests.domain.ports import QuestBootstrapper
 
 
 @lru_cache(maxsize=1)
@@ -55,3 +57,13 @@ def clear_caches() -> None:
     build_quests_service.cache_clear()
     build_quest_catalog_repository.cache_clear()
     build_user_quest_repository.cache_clear()
+    build_quest_bootstrapper.cache_clear()
+
+#Building services that implement QuestBootstrapper protocol
+@lru_cache(maxsize=1)
+def build_quest_bootstrapper() -> QuestBootstrapper:
+    """
+    Build and return an instance that implements QuestBootstrapper protocol.
+    For now, we can use the QuestsService itself since it has the bootstrap_guild_quests method.
+    """
+    return build_quests_service()
