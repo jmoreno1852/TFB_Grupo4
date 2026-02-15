@@ -27,7 +27,7 @@ def build_user_quest_repository() -> UserQuestMongoRepository:
     """
     return UserQuestMongoRepository(get_db())
 
-
+@lru_cache(maxsize=1)
 def build_reward_applier(): 
     """
     Build and return RewardApplier implementation.
@@ -57,6 +57,7 @@ def clear_caches() -> None:
     build_quests_service.cache_clear()
     build_quest_catalog_repository.cache_clear()
     build_user_quest_repository.cache_clear()
+    build_reward_applier.cache_clear()
     build_quest_bootstrapper.cache_clear()
 
 #Building services that implement QuestBootstrapper protocol
