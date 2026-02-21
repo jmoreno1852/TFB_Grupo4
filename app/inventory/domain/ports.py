@@ -20,20 +20,6 @@ class InventoryRepository(ABC):
         """
         raise NotImplementedError
 
-    @abstractmethod
-    async def add_item(self, user_id: str, item_id: str, quantity: int) -> Inventory:
-        """
-        Add an item to the user's inventory.
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    async def remove_item(self, user_id: str, item_id: str, quantity: int) -> Inventory:
-        """
-        Remove an item from the user's inventory. Intended for management actions and future features like selling items.
-        """
-        raise NotImplementedError
-
 
 class ItemCatalogRepository(ABC):
     @abstractmethod
