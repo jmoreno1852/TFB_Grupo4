@@ -19,6 +19,9 @@ from app.quests.dependency_injection.providers import build_quest_catalog_reposi
 #Progression imports
 from app.progression.api.router import router as progression_router
 from app.progression.dependency_injection.providers import build_progression_repository
+#Inventory imports
+from app.inventory.api.router import router as inventory_router
+from app.inventory.dependency_injection.providers import build_inventory_repository
 
 #Imports to clear cache for testing purposes with TestClient
 from app.auth.dependency_injection.providers import clear_caches as clear_auth_caches
@@ -26,6 +29,7 @@ from app.users.dependency_injection.providers import clear_users_caches
 from app.guilds.dependency_injection.providers import clear_caches as clear_guilds_caches
 from app.quests.dependency_injection.providers import clear_caches as clear_quests_caches
 from app.progression.dependency_injection.providers import clear_caches as clear_progression_caches
+from app.inventory.dependency_injection.providers import clear_caches as clear_inventory_caches
 
 
 CACHE_CLEAR_FUNCTIONS = [
@@ -34,6 +38,7 @@ CACHE_CLEAR_FUNCTIONS = [
     clear_guilds_caches,
     clear_quests_caches,
     clear_progression_caches,
+    clear_inventory_caches,
 ]
 
 #Startup event to ensure indexes uniqueness in the database
@@ -57,6 +62,9 @@ async def lifespan(app: FastAPI):
     #Progression Repository
     repo_progression = build_progression_repository()   
 
+    #Inventory Repository
+    repo_inventory = build_inventory_repository()
+
     #startup ensure indexes uniqueness of email values
     await repo_user.ensure_indexes()
     await repo_profile.ensure_indexes()
@@ -72,6 +80,9 @@ async def lifespan(app: FastAPI):
     # startup ensure indexes for progression
     await repo_progression.ensure_indexes()
 
+    # startup ensure indexes for inventory
+    await repo_inventory.ensure_indexes()
+
     #yield this point to startup completion
     yield
     #lifespan manager on shutdown
@@ -84,7 +95,7 @@ async def lifespan(app: FastAPI):
 
 #Create the app with FastAPI
 def create_app() -> FastAPI:
-    #Start FatAPI app with lifespan manager
+    #Start FastAPI app with lifespan manager
     app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 
     #Routers
@@ -93,6 +104,7 @@ def create_app() -> FastAPI:
     app.include_router(guilds_router)
     app.include_router(quests_router)
     app.include_router(progression_router)
+    app.include_router(inventory_router)
 
     #Health check endpoint for testing purposes
     @app.get("/health")
