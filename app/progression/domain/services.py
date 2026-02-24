@@ -75,3 +75,14 @@ class ProgressionService:
         """Centralized XP formula for next level."""
         level_norm = max(1, int(level))
         return 100 * level_norm
+    
+    async def spend_gold(self, user_id: str, amount: int) -> Progression:
+        user_id_norm = user_id.strip()
+
+        if amount <= 0:
+            raise ValueError("amount must be > 0")
+
+        return await self.progression_repository.spend_gold(
+            user_id=user_id_norm,
+            amount=amount,
+        )
