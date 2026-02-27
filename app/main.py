@@ -22,6 +22,12 @@ from app.progression.dependency_injection.providers import build_progression_rep
 #Inventory imports
 from app.inventory.api.router import router as inventory_router
 from app.inventory.dependency_injection.providers import build_inventory_repository
+#Shop imports
+from app.shop.api.router import router as shop_router
+from app.shop.dependency_injection.providers import build_shop_rotation_repository
+#House imports
+from app.house.api.router import router as house_router
+from app.house.dependency_injection.providers import build_house_repository
 
 #Imports to clear cache for testing purposes with TestClient
 from app.auth.dependency_injection.providers import clear_caches as clear_auth_caches
@@ -30,6 +36,8 @@ from app.guilds.dependency_injection.providers import clear_caches as clear_guil
 from app.quests.dependency_injection.providers import clear_caches as clear_quests_caches
 from app.progression.dependency_injection.providers import clear_caches as clear_progression_caches
 from app.inventory.dependency_injection.providers import clear_caches as clear_inventory_caches
+from app.shop.dependency_injection.providers import clear_caches as clear_shop_caches
+from app.house.dependency_injection.providers import clear_caches as clear_house_caches
 
 
 CACHE_CLEAR_FUNCTIONS = [
@@ -39,6 +47,8 @@ CACHE_CLEAR_FUNCTIONS = [
     clear_quests_caches,
     clear_progression_caches,
     clear_inventory_caches,
+    clear_shop_caches,
+    clear_house_caches,
 ]
 
 #Startup event to ensure indexes uniqueness in the database
@@ -65,6 +75,12 @@ async def lifespan(app: FastAPI):
     #Inventory Repository
     repo_inventory = build_inventory_repository()
 
+    #Shop Repository
+    repo_shop_rotation = build_shop_rotation_repository()
+
+    #House Repository
+    repo_house = build_house_repository()
+    
     #startup ensure indexes uniqueness of email values
     await repo_user.ensure_indexes()
     await repo_profile.ensure_indexes()
@@ -82,6 +98,12 @@ async def lifespan(app: FastAPI):
 
     # startup ensure indexes for inventory
     await repo_inventory.ensure_indexes()
+
+    # startup ensure indexes for shop
+    await repo_shop_rotation.ensure_indexes()
+
+    # startup ensure indexes for house
+    await repo_house.ensure_indexes()
 
     #yield this point to startup completion
     yield
@@ -105,7 +127,8 @@ def create_app() -> FastAPI:
     app.include_router(quests_router)
     app.include_router(progression_router)
     app.include_router(inventory_router)
-
+    app.include_router(shop_router)
+    app.include_router(house_router)
     #Health check endpoint for testing purposes
     @app.get("/health")
     async def health():
