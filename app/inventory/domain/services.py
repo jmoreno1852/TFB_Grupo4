@@ -214,3 +214,25 @@ class InventoryService:
         )
         await self.inventory_repository.update_inventory(updated_inventory)
         return updated_inventory
+    #Function defined for house module
+    async def get_user_item(self, user_id: str, item_id: str):
+        """
+        Return minimal item info if owned by user, else None.
+        """
+        user_id_norm = user_id.strip()
+        item_id_norm = item_id.strip()
+
+        await self.ensure_catalog_initialized()
+
+        inventory = await self.inventory_repository.get_by_user(user_id_norm)
+
+        owns_item = any(
+            owned_item.item_id == item_id_norm and owned_item.quantity > 0
+            for owned_item in inventory.items
+        )
+        if not owns_item:
+            return None
+
+        # If user owns it, fetch item from catalog
+        item = await self.catalog_repository.get_item(item_id_norm)  
+        return {"item_id": item.id, "type": item.type}
