@@ -86,3 +86,11 @@ class ProgressionService:
             user_id=user_id_norm,
             amount=amount,
         )
+    #Function to check level, used by house
+    async def get_level(self, user_id: str) -> int:
+        """
+        Return current user level.
+        """
+        user_id_norm = user_id.strip()
+        prog = await self.progression_repository.get_by_user(user_id_norm)
+        return prog.level
