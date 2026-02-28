@@ -22,7 +22,7 @@ from app.quests.domain.errors import (
     QuestDeleteError,
 )
 from app.quests.dependency_injection.providers import build_quests_service
-
+from app.quests.domain.services import QuestsService
 
 router = APIRouter(prefix="/quests", tags=["quests"])
 
@@ -46,12 +46,10 @@ def _to_quest_response(quest, assignment) -> QuestResponse:
 
 
 @router.get("", response_model=ListUserQuestsResponse)
-async def list_user_quests(current_user: User = Depends(get_current_user)):
+async def list_user_quests(current_user: User = Depends(get_current_user), service: QuestsService = Depends(build_quests_service)):
     """
     List active quests assigned to current user.
     """
-    service = build_quests_service()
-
     try:
         merged = await service.list_user_quests(current_user.id)
         quests = [_to_quest_response(m["quest"], m["assignment"]) for m in merged]
@@ -62,12 +60,11 @@ async def list_user_quests(current_user: User = Depends(get_current_user)):
 
 
 @router.post("/{quest_id}/complete", response_model=CompleteQuestResponse)
-async def complete_quest(quest_id: str, current_user: User = Depends(get_current_user)):
+async def complete_quest(quest_id: str, current_user: User = Depends(get_current_user), service: QuestsService = Depends(build_quests_service)):
     """
     Complete an active quest assigned to the current user.
     Marks quest as completed, applies rewards and assigns a new quest for the same guild.
     """
-    service = build_quests_service()
 
     try:
         result = await service.complete_quest(user_id=current_user.id, quest_id=quest_id)
@@ -105,12 +102,10 @@ async def complete_quest(quest_id: str, current_user: User = Depends(get_current
 
 
 @router.post("", response_model=QuestResponse, status_code=status.HTTP_201_CREATED)
-async def create_quest(payload: CreateQuestRequest):
+async def create_quest(payload: CreateQuestRequest, service: QuestsService = Depends(build_quests_service)):
     """
     Create a quest in catalog.
     """
-    service = build_quests_service()
-
     try:
         quest = await service.create_quest(payload.model_dump())
 
@@ -132,11 +127,10 @@ async def create_quest(payload: CreateQuestRequest):
 
 
 @router.patch("/{quest_id}", response_model=QuestResponse)
-async def update_quest(quest_id: str, payload: UpdateQuestRequest):
+async def update_quest(quest_id: str, payload: UpdateQuestRequest, service: QuestsService = Depends(build_quests_service)):
     """
     Update a quest in catalog.
     """
-    service = build_quests_service()
 
     try:
         quest = await service.update_quest(quest_id, payload.model_dump(exclude_unset=True))
@@ -161,12 +155,10 @@ async def update_quest(quest_id: str, payload: UpdateQuestRequest):
 
 
 @router.delete("/{quest_id}", response_model=DeleteQuestResponse)
-async def delete_quest(quest_id: str):
+async def delete_quest(quest_id: str, service: QuestsService = Depends(build_quests_service)):
     """
     Delete a quest from catalog.
     """
-    service = build_quests_service()
-
     try:
         await service.delete_quest(quest_id)
         return DeleteQuestResponse(deleted=True)
@@ -182,12 +174,11 @@ async def delete_quest(quest_id: str):
 
 
 @router.post("/guilds/{guild_id}/bootstrap", response_model=BootstrapGuildQuestsResponse)
-async def bootstrap_guild_quests(guild_id: str, current_user: User = Depends(get_current_user)):
+async def bootstrap_guild_quests(guild_id: str, current_user: User = Depends(get_current_user), service: QuestsService = Depends(build_quests_service)):
     """
     Endpoint to bootstrap quests for a guild.
     (Usually called from guild join flow instead.)
     """
-    service = build_quests_service()
 
     try:
         await service.bootstrap_guild_quests(user_id=current_user.id, guild_id=guild_id)
