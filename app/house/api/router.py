@@ -16,7 +16,7 @@ from app.house.domain.errors import (
     InvalidItemTypeError,
 )
 from app.house.dependency_injection.providers import build_house_service
-
+from app.house.domain.services import HouseService
 
 router = APIRouter(prefix="/house", tags=["house"])
 
@@ -30,12 +30,10 @@ def _to_house_response(data) -> HouseResponse:
 
 
 @router.get("/me", response_model=HouseResponse)
-async def get_my_house(current_user: User = Depends(get_current_user)):
+async def get_my_house(current_user: User = Depends(get_current_user), service: HouseService = Depends(build_house_service)):
     """
     Get current user's house.
     """
-    service = build_house_service()
-
     try:
         data = await service.get_house(user_id=current_user.id)
         return _to_house_response(data)
@@ -45,12 +43,10 @@ async def get_my_house(current_user: User = Depends(get_current_user)):
 
 
 @router.post("/place", response_model=HouseResponse)
-async def place_furniture(payload: PlaceFurnitureRequest, current_user: User = Depends(get_current_user)):
+async def place_furniture(payload: PlaceFurnitureRequest, current_user: User = Depends(get_current_user), service: HouseService = Depends(build_house_service)):
     """
     Place furniture in a room slot.
     """
-    service = build_house_service()
-
     try:
         data = await service.place_furniture(
             user_id=current_user.id,
@@ -77,12 +73,10 @@ async def place_furniture(payload: PlaceFurnitureRequest, current_user: User = D
 
 
 @router.post("/remove", response_model=HouseResponse)
-async def remove_furniture(payload: RemoveFurnitureRequest, current_user: User = Depends(get_current_user)):
+async def remove_furniture(payload: RemoveFurnitureRequest, current_user: User = Depends(get_current_user), service: HouseService = Depends(build_house_service)):
     """
     Remove furniture from a room slot.
     """
-    service = build_house_service()
-
     try:
         data = await service.remove_furniture(
             user_id=current_user.id,
