@@ -20,7 +20,7 @@ from app.guilds.domain.errors import (
     GuildHasMembersError,
 )
 from app.guilds.dependency_injection.providers import build_guilds_service
-
+from app.guilds.domain.services import GuildsService
 
 router = APIRouter(prefix="/guilds", tags=["guilds"])
 
@@ -34,12 +34,10 @@ def _to_guild_response(guild) -> GuildResponse:
 
 
 @router.get("", response_model=ListGuildsResponse)
-async def list_guilds():
+async def list_guilds(service: GuildsService = Depends(build_guilds_service)):
     """
     List all available guilds (catalog).
     """
-    service = build_guilds_service()
-
     try:
         guilds = await service.list_guilds()
         return ListGuildsResponse(guilds=[_to_guild_response(g) for g in guilds])
@@ -49,11 +47,10 @@ async def list_guilds():
 
 
 @router.post("", response_model=CreateGuildResponse, status_code=status.HTTP_201_CREATED)
-async def create_guild(payload: CreateGuildRequest):
+async def create_guild(payload: CreateGuildRequest, service: GuildsService = Depends(build_guilds_service)):
     """
     Create a new guild.
     """
-    service = build_guilds_service()
 
     try:
         guild = await service.create_guild(name=payload.name, description=payload.description)
@@ -69,12 +66,10 @@ async def create_guild(payload: CreateGuildRequest):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 @router.delete("/{guild_id}", response_model=DeleteGuildResponse)
-async def delete_guild(guild_id: str):
+async def delete_guild(guild_id: str, service: GuildsService = Depends(build_guilds_service)):
     """
     Delete a guild. Only guilds with no active membershipts can be deleted.
     """
-    service = build_guilds_service()
-
     try:
         await service.delete_guild(guild_id)
         return DeleteGuildResponse(deleted=True)
@@ -89,12 +84,10 @@ async def delete_guild(guild_id: str):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     
 @router.post("/join", status_code=status.HTTP_204_NO_CONTENT)
-async def join_guild(payload: JoinGuildRequest, current_user: User = Depends(get_current_user)):
+async def join_guild(payload: JoinGuildRequest, current_user: User = Depends(get_current_user), service: GuildsService = Depends(build_guilds_service)):
     """
     Join a guild.
     """
-    service = build_guilds_service()
-
     try:
         await service.join_guild(user_id=current_user.id, guild_id=payload.guild_id)
         return
@@ -110,12 +103,10 @@ async def join_guild(payload: JoinGuildRequest, current_user: User = Depends(get
 
 
 @router.post("/leave", status_code=status.HTTP_204_NO_CONTENT)
-async def leave_guild(payload: JoinGuildRequest, current_user: User = Depends(get_current_user)):
+async def leave_guild(payload: JoinGuildRequest, current_user: User = Depends(get_current_user), service: GuildsService = Depends(build_guilds_service)):
     """
     Leave a guild.
     """
-    service = build_guilds_service()
-
     try:
         await service.leave_guild(user_id=current_user.id, guild_id=payload.guild_id)
         return
