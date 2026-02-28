@@ -6,6 +6,7 @@ from app.users.api.schemas import UserMeResponse, UpdateProfileRequest, UserSett
 from app.users.domain.errors import UserNotFoundError, InvalidUpdateError
 from app.users.domain.services import UpdateProfileData, UpdateSettingsData
 from app.users.dependency_injection.providers import build_users_service
+from app.users.domain.services import UsersService
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -27,12 +28,10 @@ def _to_user_me_response(profile) -> UserMeResponse:
     )
 
 @router.get("/me", response_model=UserMeResponse)
-async def get_me(current_user: User = Depends(get_current_user)):
+async def get_me(current_user: User = Depends(get_current_user), service: UsersService = Depends(build_users_service)):
     """
     Return current user's profile through user_id from JWT token in get_current_user
     """
-    service = build_users_service()
-
     try:
         profile = await service.get_me(current_user.id)
         return _to_user_me_response(profile)
@@ -45,11 +44,11 @@ async def get_me(current_user: User = Depends(get_current_user)):
 async def update_me(
     payload: UpdateProfileRequest,
     current_user: User = Depends(get_current_user),
+    service: UsersService = Depends(build_users_service)        
 ):
     """
     Partial updates for user profile, protected by JWT getting user_id through get_current_user.
     """
-    service = build_users_service()
     #Auxiliar variable for nested settings
     settings_update = None
     if payload.settings is not None:
