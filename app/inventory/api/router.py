@@ -20,7 +20,7 @@ from app.inventory.dependency_injection.providers import (
     build_inventory_service,
     build_catalog_service,
 )
-
+from app.inventory.domain.services import InventoryService, CatalogService
 
 router = APIRouter(prefix="/inventory", tags=["inventory"])
 
@@ -54,12 +54,10 @@ def _to_catalog_item_response(item) -> CatalogItemResponse:
 
 
 @router.get("/me", response_model=InventoryResponse)
-async def get_my_inventory(current_user: User = Depends(get_current_user)):
+async def get_my_inventory(current_user: User = Depends(get_current_user), service: InventoryService = Depends(build_inventory_service)):
     """
     Get current user's inventory including equipment.
     """
-    service = build_inventory_service()
-
     try:
         inventory = await service.get_inventory(user_id=current_user.id)
         return _to_inventory_response(inventory)
@@ -69,12 +67,10 @@ async def get_my_inventory(current_user: User = Depends(get_current_user)):
 
 
 @router.post("/equip", response_model=InventoryResponse)
-async def equip_item(payload: EquipRequest, current_user: User = Depends(get_current_user)):
+async def equip_item(payload: EquipRequest, current_user: User = Depends(get_current_user), service: InventoryService = Depends(build_inventory_service)):
     """
     Equip an owned item into a slot.
     """
-    service = build_inventory_service()
-
     try:
         inventory = await service.equip_item(
             user_id=current_user.id,
@@ -100,12 +96,10 @@ async def equip_item(payload: EquipRequest, current_user: User = Depends(get_cur
 
 
 @router.post("/unequip", response_model=InventoryResponse)
-async def unequip_item(payload: UnequipRequest, current_user: User = Depends(get_current_user)):
+async def unequip_item(payload: UnequipRequest, current_user: User = Depends(get_current_user), service: InventoryService = Depends(build_inventory_service)):
     """
     Unequip whatever is currently in the given slot.
     """
-    service = build_inventory_service()
-
     try:
         inventory = await service.unequip_item(
             user_id=current_user.id,
@@ -121,12 +115,10 @@ async def unequip_item(payload: UnequipRequest, current_user: User = Depends(get
 
 
 @router.get("/catalog", response_model=CatalogListResponse)
-async def list_catalog_items():
+async def list_catalog_items(service: CatalogService = Depends(build_catalog_service)):
     """
     List all available items in the global catalog.
     """
-    service = build_catalog_service()
-
     try:
         items = await service.list_catalog_items()
         return CatalogListResponse(items=[_to_catalog_item_response(i) for i in items])
@@ -136,12 +128,10 @@ async def list_catalog_items():
 
 
 @router.get("/catalog/{item_id}", response_model=CatalogItemResponse)
-async def get_catalog_item(item_id: str):
+async def get_catalog_item(item_id: str, service: CatalogService = Depends(build_catalog_service)):
     """
     Get a specific catalog item by id.
     """
-    service = build_catalog_service()
-
     try:
         item = await service.get_catalog_item(item_id=item_id)
         return _to_catalog_item_response(item)
