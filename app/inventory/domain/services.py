@@ -200,17 +200,23 @@ class InventoryService:
         #Load user's inventory to operate on
         inventory = await self.inventory_repository.get_by_user(user_id_norm)
 
-        #Check ownership of item in user inventory
-        owns_item = any(owned_item.item_id == item_id_norm and owned_item.quantity > 0 for owned_item in inventory.items)
-        if not owns_item:
-            raise ItemNotOwnedError("User does not own this item.")
-
         # Validate slot compatibility using catalog
         item = await self.catalog_repository.get_item(item_id_norm)  # raises ItemNotFoundInCatalogError
         if item.equippable_slot is None:
             raise ItemNotEquippableError("This item cannot be equipped.")
         if item.equippable_slot != slot_norm:
             raise ItemNotEquippableError("Item is not compatible with this slot.")
+        
+        #Check if slot already has an equipped item
+        currently_equipped_item_id: Optional[str] = getattr(inventory.equipment, slot_norm)
+
+        #Decrease new item quantity, and update in memory state
+        inventory = self._consume_from_inventory(inventory, item_id_norm, 1)
+
+        #If something was equipped before, return it to inventory
+        if currently_equipped_item_id is not None:
+            inventory = self._grant_to_inventory(inventory, currently_equipped_item_id, 1)
+
 
         new_equipment = replace(inventory.equipment, **{slot_norm: item_id_norm})
         updated_inventory = replace(
@@ -229,6 +235,13 @@ class InventoryService:
             raise SlotInvalidError("Invalid equipment slot.")
 
         inventory = await self.inventory_repository.get_by_user(user_id_norm)
+        #Get item id of current equipped item if there is one
+        currently_equipped_item_id: Optional[str] = getattr(inventory.equipment, slot_norm)
+        if currently_equipped_item_id is None:
+            raise ItemNotEquippableError("No item equipped in this slot.")
+        
+        #Return equipped item to inventory
+        inventory = self._grant_to_inventory(inventory, currently_equipped_item_id, 1)
 
         new_equipment = replace(inventory.equipment, **{slot_norm: None})
         updated_inventory = replace(
@@ -260,3 +273,99 @@ class InventoryService:
         # If user owns it, fetch item from catalog
         item = await self.catalog_repository.get_item(item_id_norm)  
         return {"item_id": item.id, "type": item.type}
+    
+    #Internal helper to remove item from inventory after equipping item
+    def _consume_from_inventory(self, inventory: Inventory, item_id: str, amount: int = 1) -> Inventory:
+        if amount < 1:
+            raise ValueError("Amount must be >= 1.")
+
+        existing_item: Optional[InventoryItem] = None
+        for owned_item in inventory.items:
+            if owned_item.item_id == item_id:
+                existing_item = owned_item
+                break
+
+        if existing_item is None or existing_item.quantity < amount:
+            raise ItemNotOwnedError("User does not own enough of this item.")
+
+        new_quantity = existing_item.quantity - amount
+
+        if new_quantity > 0:
+            updated_items = [
+                replace(owned_item, quantity=new_quantity)
+                if owned_item.item_id == item_id
+                else owned_item
+                for owned_item in inventory.items
+            ]
+        else:
+            updated_items = [
+                owned_item
+                for owned_item in inventory.items
+                if owned_item.item_id != item_id
+            ]
+
+        return replace(inventory, items=updated_items)
+    #Internal helper to add item to inventory after unequipping item
+    def _grant_to_inventory(self, inventory: Inventory, item_id: str, amount: int = 1) -> Inventory:
+        if amount < 1:
+            raise ValueError("Amount must be >= 1.")
+        existing_item: Optional[InventoryItem] = None
+        for owned_item in inventory.items:
+            if owned_item.item_id == item_id:
+                existing_item = owned_item
+                break
+
+        if existing_item is None:
+            updated_items = list(inventory.items) + [
+                InventoryItem(item_id=item_id, quantity=amount)
+            ]
+        else:
+            updated_items = [
+                replace(owned_item, quantity=owned_item.quantity + amount)
+                if owned_item.item_id == item_id
+                else owned_item
+                for owned_item in inventory.items
+            ]
+
+        return replace(inventory, items=updated_items)
+    #Specific function for house module
+    async def consume_item(self, user_id: str, item_id: str, amount: int = 1,) -> Inventory:
+        user_id_norm = user_id.strip()
+        item_id_norm = item_id.strip()
+
+        await self.ensure_catalog_initialized()
+
+        inventory = await self.inventory_repository.get_by_user(user_id_norm)
+
+        updated_inventory = self._consume_from_inventory(
+            inventory, item_id_norm, amount
+        )
+
+        updated_inventory = replace(
+            updated_inventory,
+            updated_at=datetime.now(timezone.utc),
+        )
+
+        await self.inventory_repository.update_inventory(updated_inventory)
+        return updated_inventory
+    #Specific function for house module
+    async def grant_item(self, user_id: str, item_id: str, amount: int = 1,) -> Inventory:
+        user_id_norm = user_id.strip()
+        item_id_norm = item_id.strip()
+
+        await self.ensure_catalog_initialized()
+        await self.catalog_repository.get_item(item_id_norm)
+
+        inventory = await self.inventory_repository.get_by_user(user_id_norm)
+
+        updated_inventory = self._grant_to_inventory(
+            inventory, item_id_norm, amount
+        )
+
+        updated_inventory = replace(
+            updated_inventory,
+            updated_at=datetime.now(timezone.utc),
+        )
+
+        await self.inventory_repository.update_inventory(updated_inventory)
+        return updated_inventory

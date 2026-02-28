@@ -26,6 +26,16 @@ class InventoryGateway(ABC):
         Returns item from user inventory by item_id
         """
         raise NotImplementedError
+    @abstractmethod
+    async def consume_item(self, user_id: str, item_id: str, amount: int = 1) -> None:
+        """Decrease quantity of an item. Must fail if user doesn't have enough."""
+        raise NotImplementedError
+    
+    @abstractmethod
+    async def grant_item(self, user_id: str, item_id: str, amount: int = 1) -> None:
+        """Increase quantity of an item."""
+        raise NotImplementedError
+
 
 
 class ProgressionGateway(ABC):

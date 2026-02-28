@@ -11,6 +11,7 @@ from app.house.domain.errors import (
     InvalidPlacementError,
     ItemNotOwnedError,
     InvalidItemTypeError,
+    FurnitureNotFoundError,
 )
 from app.house.domain.ports import HouseRepository, InventoryGateway, ProgressionGateway
 
@@ -58,6 +59,19 @@ class HouseService:
             raise InvalidItemTypeError("Only items of type 'furniture' can be placed.")
 
         house = await self._get_or_create_house(user_id_norm)
+        # Check if slot already occupied to return previous item to inventory
+        replaced_item_id: str | None = None
+        for p in house.placements:
+            if p.room_index == room_index and p.slot_index == slot_index:
+                replaced_item_id = p.item_id
+                break
+        
+        # Decrease item quantity from inventory 
+        await self.inventory_gateway.consume_item(user_id_norm, item_id_norm, amount=1)
+
+        # If there was a replaced item, return it to the user's inventory
+        if replaced_item_id is not None:
+            await self.inventory_gateway.grant_item(user_id_norm, replaced_item_id, amount=1)
 
         # Replace placement if slot already occupied
         new_placement = HousePlacement(
@@ -96,6 +110,19 @@ class HouseService:
 
         house = await self._get_or_create_house(user_id_norm)
 
+        # Check if there is furniture in the specified slot
+        removed_item_id: str | None = None
+        for p in house.placements:
+            if p.room_index == room_index and p.slot_index == slot_index:
+                removed_item_id = p.item_id
+                break
+
+        if removed_item_id is None:
+            raise FurnitureNotFoundError("No furniture found in the specified slot.")
+
+        # Return the item to the user's inventory
+        await self.inventory_gateway.grant_item(user_id_norm, removed_item_id, amount=1)
+        
         new_placements = [
             p for p in house.placements
             if not (p.room_index == room_index and p.slot_index == slot_index)

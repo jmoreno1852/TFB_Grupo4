@@ -28,6 +28,13 @@ class InventoryServiceGateway(InventoryGateway):
 
         return await self.inventory_service.get_user_item(user_id=user_id, item_id=item_id)
 
+    async def consume_item(self, user_id: str, item_id: str, amount: int = 1) -> None:
+        
+        return await self.inventory_service.consume_item(user_id=user_id, item_id=item_id, amount=amount)
+    
+    async def grant_item(self, user_id: str, item_id: str, amount: int = 1) -> None:
+        return await self.inventory_service.grant_item(user_id=user_id, item_id=item_id, amount=amount) 
+        
 
 class ProgressionServiceGateway(ProgressionGateway):
     """

@@ -24,3 +24,7 @@ class ItemNotOwnedError(DomainError):
 class InvalidItemTypeError(DomainError):
     """Raised when item is not of type 'furniture'."""
     pass
+
+class FurnitureNotFoundError(DomainError):
+    """Raised when trying to remove furniture from an empty slot."""
+    pass
