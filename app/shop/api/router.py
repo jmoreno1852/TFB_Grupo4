@@ -7,6 +7,7 @@ from app.shop.api.schemas import ShopItemResponse, PurchaseRequest, PurchaseResp
 from app.shop.domain.errors import ShopItemNotFoundError, CatalogItemNotFoundError
 from app.progression.domain.errors import InsufficientGoldError
 from app.shop.dependency_injection.providers import build_shop_service
+from app.shop.domain.services import ShopService
 
 router = APIRouter(prefix="/shop", tags=["shop"])
 
@@ -23,12 +24,10 @@ def _to_shop_item_response(item) -> ShopItemResponse:
 
 
 @router.get("/items", response_model=list[ShopItemResponse])
-async def list_shop_items():
+async def list_shop_items(service: ShopService = Depends(build_shop_service)):
     """
     List current shop rotation items.
     """
-    service = build_shop_service()
-
     try:
         items = await service.list_items()
         return [_to_shop_item_response(i) for i in items]
@@ -41,12 +40,10 @@ async def list_shop_items():
 
 
 @router.post("/purchase", response_model=PurchaseResponse)
-async def purchase_item(payload: PurchaseRequest, current_user: User = Depends(get_current_user)):
+async def purchase_item(payload: PurchaseRequest, current_user: User = Depends(get_current_user), service: ShopService = Depends(build_shop_service)):
     """
     Purchase an item from current shop rotation.
     """
-    service = build_shop_service()
-
     try:
         await service.purchase(
             user_id=current_user.id,
