@@ -9,14 +9,14 @@ from app.auth.api.schemas import (
 from app.auth.api.deps import get_current_user
 from app.auth.dependency_injection.providers import build_auth_service
 from app.auth.domain.errors import UserAlreadyExistsError, InvalidCredentialsError
+from app.auth.domain.services import AuthService
 
 #Define router for /auth endpoints
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 #Register endpoint
 @router.post("/register", response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)
-async def register(payload: RegisterRequest):
-    service = build_auth_service()
+async def register(payload: RegisterRequest, service: AuthService = Depends(build_auth_service)):
     try:
         user = await service.register(payload.email, payload.password)
         return RegisterResponse(id=user.id, email=user.email, created_at=user.created_at)
@@ -25,8 +25,7 @@ async def register(payload: RegisterRequest):
 
 #Login endpoint
 @router.post("/login", response_model=TokenResponse)
-async def login(payload: LoginRequest):
-    service = build_auth_service()
+async def login(payload: LoginRequest, service: AuthService = Depends(build_auth_service)):
     try:
         token = await service.login(payload.email, payload.password)
         return TokenResponse(access_token=token)
