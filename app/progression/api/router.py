@@ -9,7 +9,7 @@ from app.progression.api.schemas import (
     GetProgressResponse,
 )
 from app.progression.dependency_injection.providers import build_progression_service
-
+from app.progression.domain.services import ProgressionService
 
 router = APIRouter(prefix="/progression", tags=["progression"])
 
@@ -31,12 +31,10 @@ def _to_progress_response(prog) -> ProgressResponse:
 
 
 @router.get("/me", response_model=GetProgressResponse)
-async def get_my_progress(current_user: User = Depends(get_current_user)):
+async def get_my_progress(current_user: User = Depends(get_current_user), service: ProgressionService = Depends(build_progression_service)):
     """
     Get current user progression (lazy init if missing).
     """
-    service = build_progression_service()
-
     try:
         prog = await service.get_progress(current_user.id)
         return GetProgressResponse(progression=_to_progress_response(prog))
