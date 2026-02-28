@@ -19,7 +19,8 @@ class UpdateProfileData:
     Domain level update command.
     All fields are defined as optional so we can do partials updates.
     """
-    #We do not define user_id and username as they should not be updated
+    #We do not define user_id 
+    username: Optional[str] = None
     display_name: Optional[str] = None
     bio: Optional[str] = None
     #avatar_url: Optional[str] = None # Future implementation for user avatars

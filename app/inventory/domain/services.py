@@ -61,6 +61,30 @@ DEFAULT_ITEMS_SEED: List[Item] = [
         equippable_slot="accessory",
         value=15,
     ),
+    Item(
+        id="wooden_table",
+        name="Wooden Table",
+        description="A simple wooden table for your house.",
+        type="furniture",
+        equippable_slot=None,
+        value=60,
+    ),
+    Item(
+        id="cozy_bed",
+        name="Cozy Bed",
+        description="A comfortable bed to rest after adventures.",
+        type="furniture",
+        equippable_slot=None,
+        value=120,
+    ),
+    Item(
+        id="stone_fireplace",
+        name="Stone Fireplace",
+        description="Keeps your house warm and stylish.",
+        type="furniture",
+        equippable_slot=None,
+        value=150,
+    ),
 ]
 
 class CatalogService:

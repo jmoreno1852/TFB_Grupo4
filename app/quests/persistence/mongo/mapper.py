@@ -1,5 +1,5 @@
-from datetime import datetime
-from typing import Any, Dict, Optional
+from datetime import datetime, timezone
+from typing import Any, Dict, cast
 
 from app.quests.domain.entities import Quest, UserQuest
 
@@ -40,6 +40,15 @@ def quest_to_doc(quest: Quest) -> Dict[str, Any]:
 
 
 def doc_to_user_quest(doc: Dict[str, Any]) -> UserQuest:
+    assigned_at = cast(datetime | None, doc.get("assigned_at"))
+    completed_at = cast(datetime | None, doc.get("completed_at"))
+
+    if assigned_at and assigned_at.tzinfo is None:
+        assigned_at = assigned_at.replace(tzinfo=timezone.utc)
+
+    if completed_at and completed_at.tzinfo is None:
+        completed_at = completed_at.replace(tzinfo=timezone.utc)
+
     return UserQuest(
         user_id=doc["user_id"],
         guild_id=doc["guild_id"],

@@ -39,7 +39,7 @@ class ShopService:
                 raise CatalogItemNotFoundError(f"Catalog item not found for item_id={listing.item_id}")              
             views.append(
                 ShopItemView(
-                    id=item.id,
+                    item_id=item.id,
                     name=item.name,
                     description=item.description,
                     type=item.type,

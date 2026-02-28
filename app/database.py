@@ -2,7 +2,8 @@
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 #Import settings from config.py
 from app.config import settings
-
+#Import timezone for tz-aware datetime
+from datetime import timezone
 #Global variables
 _client: AsyncIOMotorClient | None = None
 _db: AsyncIOMotorDatabase | None = None
@@ -11,7 +12,7 @@ _db: AsyncIOMotorDatabase | None = None
 def get_client() -> AsyncIOMotorClient:
     global _client
     if _client is None:
-        _client = AsyncIOMotorClient(settings.MONGO_URI)
+        _client = AsyncIOMotorClient(settings.MONGO_URI, tz_aware=True, tzinfo=timezone.utc)
     return _client
 
 #Function to get MongoDB Database
