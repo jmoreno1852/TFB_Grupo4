@@ -19,6 +19,11 @@ class InventoryRepository(ABC):
         Persist state of inventory, needed for actions that modify inventory like equipping items.
         """
         raise NotImplementedError
+    
+    @abstractmethod
+    async def ensure_initialized(self) -> None:
+        """Ensure that the repository is initialized"""
+        raise NotImplementedError
 
 
 class ItemCatalogRepository(ABC):

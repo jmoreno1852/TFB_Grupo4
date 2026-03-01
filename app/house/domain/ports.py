@@ -15,6 +15,11 @@ class HouseRepository(ABC):
     async def save(self, house: House) -> None:
         """Persist house entity at persistence layer"""
         raise NotImplementedError
+    
+    @abstractmethod
+    async def ensure_initialized(self) -> None:
+        """Ensure that the repository is initialized"""
+        raise NotImplementedError
 
 
 class InventoryGateway(ABC):

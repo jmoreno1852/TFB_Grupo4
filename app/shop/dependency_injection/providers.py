@@ -19,6 +19,7 @@ from app.inventory.dependency_injection.providers import build_catalog_service, 
 
 from app.progression.dependency_injection.providers import build_progression_service
 
+from app.shop.domain.ports import ShopRotationRepository
 
 class ItemCatalogServiceGateway(ItemCatalogGateway):
     """
@@ -68,7 +69,7 @@ class InventoryServiceGateway(InventoryGateway):
 
 
 @lru_cache(maxsize=1)
-def build_shop_rotation_repository() -> MongoShopRotationRepository:
+def build_shop_rotation_repository() -> ShopRotationRepository:
     """
     Build and return MongoShopRotationRepository instance.
     """

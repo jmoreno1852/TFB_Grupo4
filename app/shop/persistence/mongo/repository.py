@@ -13,7 +13,7 @@ class MongoShopRotationRepository(ShopRotationRepository):
     def __init__(self, db: AsyncIOMotorDatabase):
         self._collection = db["shop_rotation"]
 
-    async def ensure_indexes(self) -> None:
+    async def ensure_initialized(self) -> None:
         """
         Ensure indexes to ensure a unique item_id per object in rotation.
         """

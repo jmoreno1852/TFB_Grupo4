@@ -6,9 +6,10 @@ from app.database import get_db
 from app.users.domain.services import UsersService
 from app.users.persistence.mongo.repository import MongoUserProfileRepository
 
+from app.users.domain.ports import UserProfileRepository
 
 @lru_cache
-def build_user_profile_repo() -> MongoUserProfileRepository:
+def build_user_profile_repo() -> UserProfileRepository:
     db: AsyncIOMotorDatabase = get_db()
     repo = MongoUserProfileRepository(db)
     return repo

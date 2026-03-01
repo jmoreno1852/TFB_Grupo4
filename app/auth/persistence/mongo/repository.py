@@ -47,5 +47,5 @@ class MongoUserRepository(UserRepository):
         return db_to_user(doc)
     
     #Ensure index and uniqueness of the value email in MongoDB collection
-    async def ensure_indexes(self):
+    async def ensure_initialized(self):
         await self._collection.create_index("email", unique=True)

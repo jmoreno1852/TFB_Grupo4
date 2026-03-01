@@ -18,3 +18,8 @@ class UserProfileRepository(ABC):
     async def update(self, user_id: str, profile: UserProfile) -> Optional[UserProfile]:
         """Update user profile in persistence layer of users domain"""
         raise NotImplementedError
+    
+    @abstractmethod
+    async def ensure_initialized(self) -> None:
+        """Ensure that the repository is initialized"""
+        raise NotImplementedError

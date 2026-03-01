@@ -42,6 +42,11 @@ class ShopRotationRepository(ABC):
         Rotates shop listings if rotation window has expired.
         """
         raise NotImplementedError
+    
+    @abstractmethod
+    async def ensure_initialized(self) -> None:
+        """Ensure that the repository is initialized"""
+        raise NotImplementedError
 
 
 class ItemCatalogGateway(ABC):
@@ -76,3 +81,4 @@ class InventoryGateway(ABC):
         Add an item to the user's inventory, functionality comes from inventory module.
         """
         raise NotImplementedError
+

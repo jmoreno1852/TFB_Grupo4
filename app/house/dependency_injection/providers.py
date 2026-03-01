@@ -15,6 +15,7 @@ from app.progression.domain.services import ProgressionService
 from app.inventory.dependency_injection.providers import build_inventory_service
 from app.progression.dependency_injection.providers import build_progression_service
 
+from app.house.domain.ports import HouseRepository
 
 class InventoryServiceGateway(InventoryGateway):
     """
@@ -49,7 +50,7 @@ class ProgressionServiceGateway(ProgressionGateway):
 
 
 @lru_cache(maxsize=1)
-def build_house_repository() -> MongoHouseRepository:
+def build_house_repository() -> HouseRepository:
     """
     Build and return MongoHouseRepository instance.
     """

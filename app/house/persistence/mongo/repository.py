@@ -31,6 +31,6 @@ class MongoHouseRepository(HouseRepository):
             upsert=True,
         )
 
-    async def ensure_indexes(self):
+    async def ensure_initialized(self):
         # Ensure 1 house per user 
         await self._collection.create_index("user_id", unique=True)

@@ -56,7 +56,7 @@ class MongoGuildRepository(GuildRepository):
 
         await self._collection.delete_one({"_id": oid})
 
-    async def ensure_indexes(self):
+    async def ensure_initialized(self):
         # Ensures guild names are unique 
         await self._collection.create_index("name", unique=True)
 
@@ -85,7 +85,7 @@ class MongoMembershipRepository(MembershipRepository):
     async def count_members(self, guild_id: str) -> int:
         return await self._collection.count_documents({"guild_id": guild_id})
 
-    async def ensure_indexes(self):
+    async def ensure_initialized(self):
         # Prevent duplicate memberships for same user in same guild, needed for get_membership,leave and join
         await self._collection.create_index(
             [("user_id", 1), ("guild_id", 1)],

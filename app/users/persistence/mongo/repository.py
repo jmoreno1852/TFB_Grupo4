@@ -11,7 +11,7 @@ class MongoUserProfileRepository(UserProfileRepository):
     def __init__(self, db: AsyncIOMotorDatabase):
         self._collection = db["profiles"]
     
-    async def ensure_indexes(self) -> None:
+    async def ensure_initialized(self) -> None:
         #Ensure uniq index on user_id
         await self._collection.create_index("user_id", unique=True)
     

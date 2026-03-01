@@ -67,7 +67,7 @@ class MongoInventoryRepository(InventoryRepository):
             {"$set": doc},
             upsert=True,
         )
-    async def ensure_indexes(self) -> None:
+    async def ensure_initialized(self) -> None:
         """
         Ensure indexes, unique inventory per user
         """

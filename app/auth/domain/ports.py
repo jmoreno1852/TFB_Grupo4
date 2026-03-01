@@ -19,3 +19,8 @@ class UserRepository(ABC):
     async def create(self, user: User) -> User:
         """Create a user in persistence layer of auth domain"""
         raise NotImplementedError
+
+    @abstractmethod
+    async def ensure_initialized(self) -> None:
+        """Ensure that the repository is initialized"""
+        raise NotImplementedError

@@ -4,10 +4,10 @@ from functools import lru_cache
 from app.database import get_db
 from app.auth.persistence.mongo.repository import MongoUserRepository
 from app.auth.domain.services import AuthService
-
+from app.auth.domain.ports import UserRepository
 
 @lru_cache(maxsize=1)
-def build_user_repo() -> MongoUserRepository:
+def build_user_repo() -> UserRepository:
     """Build and return MongoUserRepository instance, using lru_cache to ensure singleton behavior."""
     repo = MongoUserRepository(get_db())
     return repo

@@ -82,28 +82,28 @@ async def lifespan(app: FastAPI):
     repo_house = build_house_repository()
     
     #startup ensure indexes uniqueness of email values
-    await repo_user.ensure_indexes()
-    await repo_profile.ensure_indexes()
+    await repo_user.ensure_initialized()
+    await repo_profile.ensure_initialized()
 
     # startup ensure indexes for guilds/memberships
-    await repo_guild.ensure_indexes()
-    await repo_membership.ensure_indexes()
+    await repo_guild.ensure_initialized()
+    await repo_membership.ensure_initialized()
 
     # startup ensure indexes for quests
-    await repo_quest_catalog.ensure_indexes()
-    await repo_user_quest.ensure_indexes()
+    await repo_quest_catalog.ensure_initialized()
+    await repo_user_quest.ensure_initialized()
 
     # startup ensure indexes for progression
-    await repo_progression.ensure_indexes()
+    await repo_progression.ensure_initialized()
 
     # startup ensure indexes for inventory
-    await repo_inventory.ensure_indexes()
+    await repo_inventory.ensure_initialized()
 
     # startup ensure indexes for shop
-    await repo_shop_rotation.ensure_indexes()
+    await repo_shop_rotation.ensure_initialized()
 
     # startup ensure indexes for house
-    await repo_house.ensure_indexes()
+    await repo_house.ensure_initialized()
 
     #yield this point to startup completion
     yield

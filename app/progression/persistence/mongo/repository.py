@@ -73,6 +73,6 @@ class MongoProgressionRepository(ProgressionRepository):
 
         return doc_to_progression(doc)
 
-    async def ensure_indexes(self):
+    async def ensure_initialized(self):
         # Ensure one progression per user
         await self._collection.create_index("user_id", unique=True)

@@ -6,10 +6,10 @@ from app.progression.persistence.mongo.repository import MongoProgressionReposit
 from app.progression.domain.services import ProgressionService
 
 from app.quests.domain.ports import RewardApplier
-
+from app.progression.domain.ports import ProgressionRepository
 
 @lru_cache(maxsize=1)
-def build_progression_repository() -> MongoProgressionRepository:
+def build_progression_repository() -> ProgressionRepository:
     """
     Build and return MongoProgressionRepository instance.
     """

@@ -84,7 +84,7 @@ class QuestCatalogMongoRepository(QuestCatalogRepository):
 
         await self._collection.delete_one({"_id": oid})
 
-    async def ensure_indexes(self):
+    async def ensure_initialized(self):
         await self._collection.create_index([("guild_id", 1), ("is_active", 1)])
 
 
@@ -141,7 +141,7 @@ class UserQuestMongoRepository(UserQuestRepository):
             {"$set": {"status": "completed", "completed_at": completed_at}},
         )
 
-    async def ensure_indexes(self):
+    async def ensure_initialized(self):
         # Ensuring uniqueness for user, guild, quest relationship
         await self._collection.create_index(
             [("user_id", 1), ("guild_id", 1), ("quest_id", 1)],

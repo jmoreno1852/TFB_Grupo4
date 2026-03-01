@@ -9,10 +9,10 @@ from app.guilds.persistence.mongo.repository import (
 from app.guilds.domain.services import GuildsService
 #Import for QuestBootstrapper protocol
 from app.quests.dependency_injection.providers import build_quest_bootstrapper
-
+from app.guilds.domain.ports import GuildRepository, MembershipRepository
 
 @lru_cache(maxsize=1)
-def build_guild_repository() -> MongoGuildRepository:
+def build_guild_repository() -> GuildRepository:
     """
     Build and return MongoGuildRepository instance, using lru_cache to ensure singleton behavior.
     """
@@ -20,7 +20,7 @@ def build_guild_repository() -> MongoGuildRepository:
 
 
 @lru_cache(maxsize=1)
-def build_membership_repository() -> MongoMembershipRepository:
+def build_membership_repository() -> MembershipRepository:
     """
     Build and return MongoMembershipRepository instance, using lru_cache to ensure singleton behavior.
     """

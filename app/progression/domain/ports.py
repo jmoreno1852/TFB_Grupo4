@@ -30,3 +30,8 @@ class ProgressionRepository(ABC):
         Decrease gold from user progression.
         """
         raise NotImplementedError
+    
+    @abstractmethod
+    async def ensure_initialized(self) -> None:
+        """Ensure that the repository is initialized"""
+        raise NotImplementedError

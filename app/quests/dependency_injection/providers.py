@@ -11,9 +11,10 @@ from app.progression.dependency_injection.providers import build_reward_applier 
 #Import QuestBootstrapper from domain ports
 from app.quests.domain.ports import QuestBootstrapper
 
+from app.quests.domain.ports import QuestCatalogRepository, UserQuestRepository
 
 @lru_cache(maxsize=1)
-def build_quest_catalog_repository() -> QuestCatalogMongoRepository:
+def build_quest_catalog_repository() -> QuestCatalogRepository:
     """
     Build and return QuestCatalogMongoRepository instance.
     """
@@ -21,7 +22,7 @@ def build_quest_catalog_repository() -> QuestCatalogMongoRepository:
 
 
 @lru_cache(maxsize=1)
-def build_user_quest_repository() -> UserQuestMongoRepository:
+def build_user_quest_repository() -> UserQuestRepository:
     """
     Build and return UserQuestMongoRepository instance.
     """

@@ -36,6 +36,10 @@ class QuestCatalogRepository(ABC):
         """Delete a quest from catalog"""
         raise NotImplementedError
 
+    @abstractmethod
+    async def ensure_initialized(self) -> None:
+        """Ensure that the repository is initialized"""
+        raise NotImplementedError
 
 class UserQuestRepository(ABC):
     @abstractmethod
@@ -78,6 +82,10 @@ class UserQuestRepository(ABC):
         """Mark an assigned quest as completed"""
         raise NotImplementedError
 
+    @abstractmethod
+    async def ensure_initialized(self) -> None:
+        """Ensure that the repository is initialized"""
+        raise NotImplementedError
 
 class RewardApplier(ABC):
     @abstractmethod

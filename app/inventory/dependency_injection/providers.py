@@ -10,10 +10,10 @@ from app.inventory.domain.services import (
     InventoryService,
     CatalogService,
 )
-
+from app.inventory.domain.ports import InventoryRepository, ItemCatalogRepository
 
 @lru_cache(maxsize=1)
-def build_inventory_repository() -> MongoInventoryRepository:
+def build_inventory_repository() -> InventoryRepository:
     """
     Build and return MongoInventoryRepository instance.
     """
@@ -21,7 +21,7 @@ def build_inventory_repository() -> MongoInventoryRepository:
 
 
 @lru_cache(maxsize=1)
-def build_item_catalog_repository() -> MongoItemCatalogRepository:
+def build_item_catalog_repository() -> ItemCatalogRepository:
     """
     Build and return MongoItemCatalogRepository instance.
     """
