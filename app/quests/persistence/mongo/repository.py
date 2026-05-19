@@ -142,13 +142,7 @@ class UserQuestMongoRepository(UserQuestRepository):
         )
 
     async def ensure_initialized(self):
-        # Ensuring uniqueness for user, guild, quest relationship
-        await self._collection.create_index(
-            [("user_id", 1), ("guild_id", 1), ("quest_id", 1)],
-            unique=True,
-        )
-
-        # Inde to speed up user quest listing and the boostrap 
+        # Index to speed up user quest listing and the boostrap 
         await self._collection.create_index([("user_id", 1), ("status", 1)])
         await self._collection.create_index([("user_id", 1), ("guild_id", 1), ("status", 1)])
 

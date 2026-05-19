@@ -28,6 +28,14 @@ DEFAULT_ITEMS_SEED: List[Item] = [
         type="armor",
         equippable_slot="helmet",
         value=30,
+    ), 
+    Item(
+        id="simple_ring",
+        name="Simple Ring",
+        description="A small accessory, fashion is everything, right?.",
+        type="accessory",
+        equippable_slot="accessory",
+        value=15,
     ),
     Item(
         id="leather_armor",
@@ -52,15 +60,7 @@ DEFAULT_ITEMS_SEED: List[Item] = [
         type="armor",
         equippable_slot="boots",
         value=20,
-    ),
-    Item(
-        id="simple_ring",
-        name="Simple Ring",
-        description="A small accessory, fashion is everything, right?.",
-        type="accessory",
-        equippable_slot="accessory",
-        value=15,
-    ),
+    ), 
     Item(
         id="wooden_table",
         name="Wooden Table",
@@ -85,6 +85,7 @@ DEFAULT_ITEMS_SEED: List[Item] = [
         equippable_slot=None,
         value=150,
     ),
+    
 ]
 
 class CatalogService:

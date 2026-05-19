@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     # JWT
     JWT_SECRET: str = Field(default="dev-secret-change-me")
     JWT_ALGORITHM: str = Field(default="HS256")
-    JWT_EXPIRE_MINUTES: int = Field(default=60)
+    JWT_EXPIRE_MINUTES: int = Field(default=30)
 
     model_config = SettingsConfigDict(
         env_file=".env",
