@@ -1,7 +1,7 @@
 # TFB_Grupo4
 Proyecto de GitHub del Grupo4. Conformado por Iria Moreno Pinto y Javier Moreno Martin.
 
-## Deployment with Docker (Recommended)
+## Deployment with Docker
 The deployment of the project is made with docker compose to start the API (FastAPI + Uvicorn) and MongoDB.
 
 ## Basic Requirements
@@ -32,3 +32,11 @@ docker compose down
 If you also want to remove volumes (including MongoDB data):
 
 docker compose down -v
+
+### Load seed to mongo for testing
+If bash console is available, execute:
+
+./restore_db.sh
+
+Or execute:
+docker run --rm --network container:mongo -i mongo:7 mongorestore --drop --db tfb_database --archive < db_archive/mongo_seed.archive
