@@ -13,6 +13,14 @@ script = ExtResource("1_idgy6")
 
 [node name="AcceptDialog" type="AcceptDialog" parent="." unique_id=211560186]
 
+[node name="Label" type="Label" parent="." unique_id=847645627]
+layout_mode = 0
+offset_left = 376.0
+offset_top = 202.0
+offset_right = 777.0
+offset_bottom = 233.0
+text = "Enter your credentials here:"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=837452409]
 layout_mode = 1
 anchors_preset = 8

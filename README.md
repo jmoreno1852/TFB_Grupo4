@@ -40,3 +40,7 @@ If bash console is available, execute:
 
 Or execute:
 docker run --rm --network container:mongo -i mongo:7 mongorestore --drop --db tfb_database --archive < db_archive/mongo_seed.archive
+
+### Connect the Frontend
+In the file frontend/daily-quest/Global.gd the variable url is setted by defould to "http://localhost:8000/"
+If the API needs to be changed, the new url need to be changed to the new one, the the calls are made using this Global variable.
