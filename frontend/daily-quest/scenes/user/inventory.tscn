@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://bk6l7uck4pxa3"]
+
+[ext_resource type="Script" uid="uid://b10ip7du6va27" path="res://scenes/user/inventory.gd" id="1_olctp"]
+
+[node name="Inventory" type="Control" unique_id=2081035467]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_olctp")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2040586555]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=621522564]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=72341728]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=2131738908]
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="PanelContainer/MarginContainer" unique_id=1870516581]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/HSplitContainer" unique_id=1903934416]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer/HSplitContainer/ScrollContainer" unique_id=238524397]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/HSplitContainer" unique_id=133534981]
+layout_mode = 2
+
+[node name="WeaponSlot" type="Label" parent="PanelContainer/MarginContainer/HSplitContainer/PanelContainer" unique_id=318917651]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HelmetSlot" type="Label" parent="PanelContainer/MarginContainer/HSplitContainer/PanelContainer" unique_id=1598537623]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ArmorSlot" type="Label" parent="PanelContainer/MarginContainer/HSplitContainer/PanelContainer" unique_id=782957763]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BootsSlot" type="Label" parent="PanelContainer/MarginContainer/HSplitContainer/PanelContainer" unique_id=1834229918]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AccessorySlot" type="Label" parent="PanelContainer/MarginContainer/HSplitContainer/PanelContainer" unique_id=1509912503]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer" unique_id=1695219398]
+layout_mode = 2
+
+[node name="ItemName" type="Label" parent="PanelContainer/MarginContainer/PanelContainer" unique_id=1690746302]
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="PanelContainer/MarginContainer/PanelContainer" unique_id=215418945]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Equip" type="Button" parent="PanelContainer/MarginContainer/PanelContainer" unique_id=235023884]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=232220549]
+unique_name_in_owner = true
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/PanelContainer/Equip" to="." method="_on_equip_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dahofafk8hs37"]
+
+[node name="EquipmentSlot" type="PanelContainer" unique_id=465494262]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=224643374]
+layout_mode = 2
+
+[node name="SlotName" type="Label" parent="VBoxContainer" unique_id=1071405760]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1148394050]
+layout_mode = 2

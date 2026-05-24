@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://c7r0t4j1l4nnr"]
+
+[ext_resource type="Script" uid="uid://d0446xg15wbch" path="res://scenes/guilds/guilds.gd" id="1_xsbvf"]
+[ext_resource type="Script" uid="uid://bgmp0lta1t7o1" path="res://scenes/guilds/guild_component.gd" id="2_ysmqe"]
+
+[node name="Guilds" type="Node2D" unique_id=262397866]
+position = Vector2(551, 305)
+script = ExtResource("1_xsbvf")
+
+[node name="Back" type="Button" parent="." unique_id=222522151]
+offset_left = -529.0
+offset_top = -289.0
+offset_right = -499.0
+offset_bottom = -261.0
+
+[node name="GuildComponent" type="PanelContainer" parent="." unique_id=1205147749]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -285.5
+offset_top = -268.5
+offset_right = 285.5
+offset_bottom = 268.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_ysmqe")
+
+[node name="MarginContainer" type="MarginContainer" parent="GuildComponent" unique_id=210206985]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GuildComponent/MarginContainer" unique_id=1831167133]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="GuildComponent/MarginContainer/VBoxContainer" unique_id=2139609212]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GuildComponent/MarginContainer/VBoxContainer" unique_id=1185648963]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GuildList" type="VBoxContainer" parent="GuildComponent/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1451661893]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HTTPRequestGuilds" type="HTTPRequest" parent="." unique_id=1357405393]
+unique_name_in_owner = true
+
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]

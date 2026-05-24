@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://tvgjtmmm6gqn"]
+
+[ext_resource type="Script" uid="uid://b83dijm25midl" path="res://menus/register.gd" id="2_1y4n7"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_1y4n7")
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -198.75
+offset_top = -54.5
+offset_right = 198.75
+offset_bottom = 54.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="username" type="TextEdit" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+placeholder_text = "Email"
+
+[node name="password" type="TextEdit" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+placeholder_text = "Password"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Exit" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="Register" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Register"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Register" to="." method="_on_register_pressed"]

@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://6aoa3jbxxdqg"]
+
+[ext_resource type="Script" uid="uid://bl44xri7j77e7" path="res://scenes/guilds/quests.gd" id="1_pkyor"]
+[ext_resource type="Script" uid="uid://386jeukg3e3p" path="res://scenes/guilds/quest_component.gd" id="2_djy0h"]
+
+[node name="Quests" type="Node2D" unique_id=1758972836]
+script = ExtResource("1_pkyor")
+
+[node name="Back" type="Button" parent="." unique_id=1791083564]
+offset_left = 19.0
+offset_top = 17.0
+offset_right = 50.0
+offset_bottom = 47.0
+
+[node name="QuestComponent" type="Control" parent="." unique_id=1652526228]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 265.0
+offset_top = 36.0
+offset_right = 916.0
+offset_bottom = 618.0
+script = ExtResource("2_djy0h")
+
+[node name="PanelContainer" type="PanelContainer" parent="QuestComponent" unique_id=56522789]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestComponent/PanelContainer" unique_id=2023358871]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QuestComponent/PanelContainer/MarginContainer" unique_id=1731016185]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="QuestComponent/PanelContainer/MarginContainer/VBoxContainer" unique_id=1655002752]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="QuestComponent/PanelContainer/MarginContainer/VBoxContainer" unique_id=1213689451]
+layout_mode = 2
+
+[node name="QuestList" type="VBoxContainer" parent="QuestComponent/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer" unique_id=127889029]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HTTPRequestQuests" type="HTTPRequest" parent="." unique_id=644872288]
+unique_name_in_owner = true
+
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]

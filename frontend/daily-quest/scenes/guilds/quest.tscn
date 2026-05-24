@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dhmrp3d3wyasn"]
+
+[ext_resource type="Script" uid="uid://wb1rx37wsdeh" path="res://scenes/guilds/quest.gd" id="1_ju1xk"]
+
+[node name="Quest" type="Control" unique_id=750883175]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ju1xk")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1713563378]
+layout_mode = 0
+offset_right = 529.0
+offset_bottom = 66.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer" unique_id=1557384795]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer" unique_id=41098008]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer" unique_id=1216990946]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer" unique_id=1793984533]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="PanelContainer/HBoxContainer" unique_id=1572364705]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Compleat"
+
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Button" to="." method="_on_complete_button_pressed"]

@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://bwjjsenhfh5xg"]
+
+[ext_resource type="Script" uid="uid://qhxf3mjp82aj" path="res://scenes/main.gd" id="1_tefeu"]
+
+[node name="Main" type="Node2D" unique_id=1664960660]
+script = ExtResource("1_tefeu")
+
+[node name="UserInfo" type="Control" parent="." unique_id=1436580595]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 885.0
+offset_top = 10.0
+offset_right = 1149.0
+offset_bottom = 60.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UserInfo" unique_id=1293005105]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UserInfo/HBoxContainer" unique_id=1587395679]
+layout_mode = 2
+
+[node name="xp" type="ProgressBar" parent="UserInfo/HBoxContainer/VBoxContainer" unique_id=1735153061]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="gold" type="Label" parent="UserInfo/HBoxContainer/VBoxContainer" unique_id=2084392420]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="UserInfo/HBoxContainer" unique_id=1127980954]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Nav" type="Control" parent="." unique_id=203092217]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 490.0
+offset_top = 381.0
+offset_right = 594.6621
+offset_bottom = 381.0
+scale = Vector2(1.5956099, 1.5413269)
+
+[node name="MarginContainer" type="MarginContainer" parent="Nav" unique_id=1158834508]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -317.5
+offset_top = -35.0
+offset_right = 317.5
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Nav/MarginContainer" unique_id=1238923446]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Shop" type="Button" parent="Nav/MarginContainer/HBoxContainer" unique_id=1467700923]
+layout_mode = 2
+text = "Shop"
+
+[node name="Quests" type="Button" parent="Nav/MarginContainer/HBoxContainer" unique_id=1659352933]
+layout_mode = 2
+text = "Quests"
+
+[node name="Guild" type="Button" parent="Nav/MarginContainer/HBoxContainer" unique_id=1972627672]
+layout_mode = 2
+text = "Guilds"
+
+[node name="Home" type="Button" parent="Nav/MarginContainer/HBoxContainer" unique_id=748342195]
+layout_mode = 2
+text = "Home"
+
+[node name="Config" type="Button" parent="Nav/MarginContainer/HBoxContainer" unique_id=2078097676]
+layout_mode = 2
+text = "User"
+
+[node name="HTTPRequestProg" type="HTTPRequest" parent="." unique_id=914400115]
+
+[connection signal="pressed" from="Nav/MarginContainer/HBoxContainer/Shop" to="." method="_on_shop_pressed"]
+[connection signal="pressed" from="Nav/MarginContainer/HBoxContainer/Quests" to="." method="_on_quests_pressed"]
+[connection signal="pressed" from="Nav/MarginContainer/HBoxContainer/Guild" to="." method="_on_guild_pressed"]
+[connection signal="pressed" from="Nav/MarginContainer/HBoxContainer/Home" to="." method="_on_home_pressed"]
+[connection signal="pressed" from="Nav/MarginContainer/HBoxContainer/Config" to="." method="_on_config_pressed"]

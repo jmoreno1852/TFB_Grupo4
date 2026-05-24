@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://bm8m3wc7d5b7g"]
+
+[ext_resource type="Script" uid="uid://cld8ieejct32" path="res://scenes/shop/shop_item.gd" id="1_3rqce"]
+[ext_resource type="Texture2D" uid="uid://c5l3ww5w37bcj" path="res://assets/Deco/02.png" id="2_hannv"]
+
+[node name="Control" type="PanelContainer" unique_id=1683849421]
+z_index = 2
+custom_minimum_size = Vector2(250, 200)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -157.0
+offset_top = -156.0
+offset_right = 157.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3rqce")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=166890310]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=2047422610]
+layout_mode = 2
+texture = ExtResource("2_hannv")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1190401804]
+layout_mode = 2
+horizontal_alignment = 1
+clip_text = true
+text_overrun_behavior = 4
+
+[node name="Desc" type="Label" parent="VBoxContainer" unique_id=1609541313]
+layout_mode = 2
+
+[node name="buy" type="Button" parent="VBoxContainer" unique_id=1682341996]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Buy
+"
+
+[connection signal="pressed" from="VBoxContainer/buy" to="." method="_on_buy_pressed"]
